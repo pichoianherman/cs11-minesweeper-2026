@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Minesweeper Pro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="controls">
+                <select id="difficulty">
+                    <option value="easy">Легкий (9x9)</option>
+                    <option value="medium">Середній (16x16)</option>
+                    <option value="hard">Важкий (20x20)</option>
+                    <option value="hardcore">Хардкор ☠️ (25x25)</option>
+                </select>
+                <button class="icon-btn" id="sound-btn" title="Увімкнути/Вимкнути звук">🔊</button>
+                <button class="reset-btn" id="reset-btn">🔄 РЕСТАРТ</button>
+            </div>
+            <div class="stats">
+                <div class="stat">🚩 <span id="mines-count">10</span></div>
+                <div class="stat">⏱️ <span id="timer">000</span></div>
+            </div>
+        </header>
+        <main class="grid" id="grid"></main>
+    </div>
+    
+    <div id="result-screen" class="modal hidden">
+        <div class="modal-content">
+            <h1 id="result-title">Результат</h1>
+            <p id="result-message"></p>
+            <button class="reset-btn" id="modal-reset-btn">Грати знову</button>
+        </div>
+    </div>
+
+    <audio id="boom-sound" src="https://assets.mixkit.co/active_storage/sfx/119/119-preview.mp3" preload="auto"></audio>
+    <audio id="win-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+    <audio id="lose-sound" src="https://assets.mixkit.co/active_storage/sfx/2954/2954-preview.mp3" preload="auto"></audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>

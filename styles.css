@@ -1,0 +1,92 @@
+:root {
+    --bg-color: #0f172a;
+    --panel: rgba(30, 41, 59, 0.85);
+    --cell-closed: #334155;
+    --cell-opened: #cbd5e1;
+    --accent: #3b82f6;
+    --danger: #ef4444;
+}
+
+body {
+    background: linear-gradient(135deg, #1e1b4b, #0f172a);
+    color: white; font-family: 'Segoe UI', sans-serif;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; margin: 0; padding: 10px;
+    user-select: none; -webkit-touch-callout: none;
+}
+
+.game-container {
+    background: var(--panel); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center;
+    max-width: 100%; overflow: auto;
+}
+
+.controls { display: flex; gap: 8px; margin-bottom: 15px; justify-content: center; flex-wrap: wrap; align-items: center; }
+select, .reset-btn, .icon-btn {
+    background: var(--accent); color: white; border: none;
+    padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;
+    outline: none; font-size: 14px; transition: transform 0.1s;
+}
+select { background: var(--cell-closed); border: 2px solid var(--accent); }
+.reset-btn:active, .icon-btn:active { transform: scale(0.95); }
+.icon-btn { font-size: 18px; padding: 8px 12px; }
+
+.stats { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.stat {
+    background: #000; color: #10b981; padding: 8px 15px;
+    border-radius: 8px; font-family: monospace; font-size: 22px;
+    box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.grid { display: grid; gap: 3px; margin: 0 auto; justify-content: center; }
+
+.cell {
+    width: 30px; height: 30px;
+    background: var(--cell-closed); border-radius: 5px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: bold;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.3); transition: transform 0.1s;
+}
+
+@media (max-width: 600px) {
+    .cell { width: 24px; height: 24px; font-size: 13px; }
+    .game-container { padding: 10px; }
+}
+
+.cell:active { box-shadow: none; transform: translateY(2px); }
+
+/* Анімації клітинок */
+.cell.opened {
+    background: var(--cell-opened); color: #0f172a; cursor: default;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); animation: popIn 0.3s ease;
+}
+.cell.flag::after { content: "🚩"; animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.cell.mine::after { content: "💣"; animation: popIn 0.4s ease; }
+.cell.exploded { background: var(--danger) !important; animation: explode 0.5s ease; }
+
+/* Кольори цифр */
+.cell[data-v="1"] { color: #2563eb; } .cell[data-v="2"] { color: #16a34a; }
+.cell[data-v="3"] { color: #dc2626; } .cell[data-v="4"] { color: #9333ea; }
+.cell[data-v="5"] { color: #b91c1c; }
+
+@keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes explode { 0% { transform: scale(1); background: yellow; } 50% { transform: scale(1.3); background: red; } 100% { transform: scale(1); background: var(--danger); } }
+
+/* Модальне вікно (Екран перемоги/програшу) */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000; opacity: 1; transition: opacity 0.3s ease;
+}
+.modal.hidden { opacity: 0; pointer-events: none; }
+.modal-content {
+    background: var(--panel); padding: 40px; border-radius: 16px;
+    text-align: center; border: 2px solid var(--accent);
+    box-shadow: 0 0 30px var(--accent); transform: scale(1); animation: popIn 0.4s ease;
+}
+.modal-content h1 { margin: 0 0 10px 0; font-size: 32px; }
+.modal-content p { font-size: 18px; margin-bottom: 25px; color: #cbd5e1; }
+.win-title { color: #10b981; }
+.lose-title { color: #ef4444; }
